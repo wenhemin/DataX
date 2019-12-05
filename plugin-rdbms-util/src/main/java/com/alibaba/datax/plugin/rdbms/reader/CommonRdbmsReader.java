@@ -51,7 +51,6 @@ public class CommonRdbmsReader {
         }
 
         public void init(Configuration originalConfig) {
-
             OriginalConfPretreatmentUtil.doPretreatment(originalConfig);
 
             LOG.debug("After job init(), job config now is:[\n{}\n]",
@@ -177,8 +176,9 @@ public class CommonRdbmsReader {
 
             PerfTrace.getInstance().addTaskDetails(taskId, table + "," + basicMsg);
 
-            LOG.info("Begin to read record by Sql: [{}\n] {}.",
+            LOG.debug("Begin to read record by Sql: [{}\n] {}.",
                     querySql, basicMsg);
+
             PerfRecord queryPerfRecord = new PerfRecord(taskGroupId,taskId, PerfRecord.PHASE.SQL_QUERY);
             queryPerfRecord.start();
 
@@ -212,10 +212,10 @@ public class CommonRdbmsReader {
                 }
 
                 allResultPerfRecord.end(rsNextUsedTime);
-                //目前大盘是依赖这个打印，而之前这个Finish read record是包含了sql查询和result next的全部时间
-                LOG.info("Finished read record by Sql: [{}\n] {}.",
-                        querySql, basicMsg);
 
+                //目前大盘是依赖这个打印，而之前这个Finish read record是包含了sql查询和result next的全部时间
+                LOG.debug("Finished read record by Sql: [{}\n] {}.",
+                        querySql, basicMsg);
             }catch (Exception e) {
                 throw RdbmsException.asQueryException(this.dataBaseType, e, querySql, table, username);
             } finally {
