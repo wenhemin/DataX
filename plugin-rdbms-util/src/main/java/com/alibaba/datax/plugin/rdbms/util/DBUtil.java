@@ -379,6 +379,10 @@ public final class DBUtil {
             //oracle.net.READ_TIMEOUT for jdbc versions < 10.1.0.5 oracle.jdbc.ReadTimeout for jdbc versions >=10.1.0.5
             // unit ms
             prop.put("oracle.jdbc.ReadTimeout", socketTimeout);
+        } else if (dataBaseType == DataBaseType.MySql) {
+            prop.put("socketTimeout", socketTimeout);
+        } else if (dataBaseType == DataBaseType.PostgreSQL) {
+            prop.put("socketTimeout", socketTimeout);
         }
 
         return connect(dataBaseType, url, prop);
